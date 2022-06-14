@@ -135,7 +135,7 @@ export default function Home() {
   const startPresale = async () => {
     try {
       // We need a Signer here since this is a 'write' transaction.
-      const signer = await getProviderOrSigner();
+      const signer = await getProviderOrSigner(true);
       // Create a new instance of the Contract with a Signer, which allows
       // update methods
       const cryptoDevsContract = new Contract(
