@@ -77,7 +77,7 @@ export default function Home() {
 
       // wait for the transaction to get mined
       setLoading(true);
-      tx.wait();
+      await tx.wait();
       setLoading(false);
       window.alert("You successfully minted a Crypto Dev!");
     } catch (err) {
@@ -107,7 +107,7 @@ export default function Home() {
 
       setLoading(true);
       // wait for the transaction to get mined
-      tx.wait();
+      await tx.wait();
       setLoading(false);
       window.alert("You successfully minted a Crypto Dev!");
     } catch (err) {
@@ -144,10 +144,10 @@ export default function Home() {
         signer
       );
       // call the startPresale from the contract
-      const tx = cryptoDevsContract.startPresale();
+      const tx = await cryptoDevsContract.startPresale();
 
       setLoading(true);
-      tx.wait();
+      await tx.wait();
       setLoading(false);
       // set the presale started to true
       await checkIfPresaleStarted();
