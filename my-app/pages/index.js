@@ -172,6 +172,9 @@ export default function Home() {
 
       // call the presaleStarted from the contract
       const _presaleStarted = await nftContract.presaleStarted();
+      if (!_presaleStarted) {
+        await getOwner();
+      }
 
       setPresaleStarted(_presaleStarted);
       return _presaleStarted;
@@ -209,12 +212,46 @@ export default function Home() {
   /**
    * getOwner: calls the contract to retrieve the owner
    */
-  const getOwner = async () => {};
+  const getOwner = async () => {
+    try {
+      const provider = await getProviderOrSigner();
+
+      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+
+      // call the owner function from the contract
+      const _owner = await nftContract.owner();
+      // We will get the signer now to extract the address of the currently connected MetaMask account
+      const signer = await getProviderOrSigner(true);
+      // Get the address associated to the signer which is connected to  MetaMask
+      const address = await signer.getAddress();
+      if (address.toLowerCase() === _owner.toLowerCase()) {
+        setIsOwner(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   /**
    * getTokenIdsMinted: gets the number of tokenIds that have been minted
    */
-  const getTokenIdsMinted = async () => {};
+  const getTokenIdsMinted = async () => {
+    try {
+      // Get the provider from web3Modal, which in our case is MetaMask
+      // No need for the Signer here, as we are only reading state from the blockchain
+      const provider = await getProviderOrSigner();
+      // We connect to the Contract using a Provider, so we will only
+      // have read-only access to the Contract
+      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+
+      // call the tokenIds from the contract
+      const _tokenIds = await nftContract.tokenIds();
+      //_tokenIds is a `Big Number`. We need to convert the Big Number to a string
+      setTokenIdsMinted(_tokenIds.toString());
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // useEffects are used to react to changes in state of the website
   // The array at the end of function call represents what state changes will trigger this effect
