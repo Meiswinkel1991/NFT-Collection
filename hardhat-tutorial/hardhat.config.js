@@ -1,7 +1,8 @@
 require("@nomiclabs/hardhat-waffle")
 require("dotenv").config({ path: ".env" })
 
-const ROPSTEN_URL = process.env.ROPSTEN_URL
+const ROPSTEN_URL = process.env.ROPSTEN_URL || ""
+const RINKEBY_URL = process.env.RINKEBY_URL || ""
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 /**
@@ -12,6 +13,11 @@ module.exports = {
         ropsten: {
             chainId: 3,
             url: ROPSTEN_URL,
+            accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [""],
+        },
+        rinkeby: {
+            chainId: 4,
+            url: RINKEBY_URL,
             accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [""],
         },
     },
