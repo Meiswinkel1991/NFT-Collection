@@ -41,7 +41,7 @@ export default function Home() {
 
     // If user is not connected to the Rinkeby network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 3) {
+    if (chainId !== 4) {
       window.alert("Change the network to Ropsten");
       throw new Error("Change network to Ropsten");
     }
